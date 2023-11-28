@@ -9,8 +9,24 @@ include_directories(
         include
 )
 
-set(SOURCE_FILES
-        src/package.cpp
+set(SOURCES_FILES_TESTS
+        test/test_package.cpp
         )
 
-add_executable(tsp ${SOURCE_FILES} main.cpp)
+add_executable(NetSimTest ${SOURCE_FILES} ${SOURCES_FILES_TESTS} test/main_gtest.cpp)
+
+target_include_directories(NetSimTest PUBLIC
+        googletest-master/googlemock/include
+        googletest-master/googletest/include
+        mocks
+        )
+
+
+add_subdirectory(googletest-master)
+
+target_link_libraries(NetSimTest gmock)
+
+set(SOURCE_FILES
+        src/package.cpp)
+
+add_executable(NetSim ${SOURCE_FILES} main.cpp)
