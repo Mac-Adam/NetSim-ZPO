@@ -11,10 +11,12 @@ include_directories(
 
 set(SOURCES_FILES_TESTS
         test/test_package.cpp
+        test/test_storage_types.cpp
         )
 
 set(SOURCE_FILES
-        src/package.cpp)
+        src/package.cpp
+        src/storage_types.cpp)
 
 add_executable(NetSimTest ${SOURCE_FILES} ${SOURCES_FILES_TESTS} test/main_gtest.cpp)
 
@@ -28,7 +30,6 @@ target_include_directories(NetSimTest PUBLIC
 add_subdirectory(googletest-master)
 
 target_link_libraries(NetSimTest gmock)
-
 
 
 add_executable(NetSim ${SOURCE_FILES} main.cpp)
