@@ -12,8 +12,7 @@ Package::Package() {
         ElementID id = *it + 1;
         assigned_IDs.insert(id);
         id_ = id;
-    }
-    else {
+    } else {
         ElementID id = *freed_IDs.begin();
         freed_IDs.erase(id);
         assigned_IDs.insert(id);
@@ -23,13 +22,21 @@ Package::Package() {
 
 Package::Package(ElementID id) : id_(id) {}
 
-Package::Package(Package && other) {
+Package::Package(Package&& other) {
     id_ = other.id_;
     other.id_ = -1;
 }
 
-Package &Package::operator=(Package &&other) {
-    id_ = other.id_;
+Package& Package::operator=(Package&& other) {
+    if (&other == this) {
+        return *this;
+    }
+    assigned_IDs.erase(this->id_);
+    freed_IDs.erase(this->id_);
+    this->id_ = other.id_;
+    assigned_IDs.insert(this->id_);
+
+    other.id_ = -1;
     return *this;
 }
 

@@ -22,9 +22,9 @@ public:
 
     virtual std::size_t size() const = 0;
 
-    virtual const_iterator begin() = 0;
+    virtual const_iterator begin() const = 0;
 
-    virtual const_iterator end() = 0;
+    virtual const_iterator end() const = 0;
 
     virtual const_iterator cbegin() const = 0;
 
@@ -52,9 +52,9 @@ public:
 
     std::size_t size() const override { return q_.size(); }
 
-    const_iterator begin() override { return q_.begin(); };
+    const_iterator begin() const override { return q_.cbegin(); };
 
-    const_iterator end() override { return q_.end(); };
+    const_iterator end() const override { return q_.cend(); };
 
     const_iterator cbegin() const override { return q_.cbegin(); };
 
