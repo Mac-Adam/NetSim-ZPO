@@ -9,4 +9,7 @@ using ElementID = int;
 
 using ProbabilityGenerator = std::is_function<double()>;
 
+using TimeOffset = int;
+using Time = int;
+
 #endif //NETSIM_ZPO_TYPES_HPP
