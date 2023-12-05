@@ -7,4 +7,6 @@
 
 using ElementID = int;
 
+using ProbabilityGenerator = std::is_function<double()>;
+
 #endif //NETSIM_ZPO_TYPES_HPP
