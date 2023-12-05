@@ -32,7 +32,7 @@ Package& Package::operator=(Package&& other) {
         return *this;
     }
     assigned_IDs.erase(this->id_);
-    freed_IDs.erase(this->id_);
+    freed_IDs.insert(this->id_);
     this->id_ = other.id_;
     assigned_IDs.insert(this->id_);
 
