@@ -12,9 +12,12 @@ enum class ReciverType {
 };
 
 class IPackageReceiver {
-    virtual void package_receiver(Package&& package) = 0;
+public:
+    virtual void recieve_package(Package&& package) = 0;
 
     virtual ElementID get_id() const = 0;
+
+    virtual ~IPackageReceiver() = default;
 
 #if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
     virtual ReciverType get_receiver_type() const = 0;
@@ -59,7 +62,7 @@ private:
 };
 
 class PackageSender {
-
+public:
     ReceiverPreferences receiver_preferences_;
 
     PackageSender(PackageSender&& package_sender_) = default;
@@ -67,6 +70,8 @@ class PackageSender {
     void send_package();
 
     const std::optional<Package>& get_sending_buffer() const { return buffer_; }
+
+    ~PackageSender() = default;
 
 private:
     std::optional<Package> buffer_ = std::nullopt;
@@ -79,13 +84,12 @@ class Storehouse : public IPackageReceiver {
 
     void package_receiver(Package&& package) override;
 
-
 };
 
 class Ramp : public PackageSender {
     Ramp(ElementID id, TimeOffset di) : PackageSender(), id_(id), di_(di) {};
 
-    void deliver_goods(Time t) {};
+    void deliver_goods(Time t);
 
     TimeOffset get_delivery_interval() const { return di_; }
 
@@ -94,6 +98,29 @@ class Ramp : public PackageSender {
 private:
     ElementID id_;
     TimeOffset di_;
+
+};
+
+class Worker : public PackageSender, public IPackageReceiver {
+public:
+
+    Worker(ElementID id, TimeOffset pd,
+           std::unique_ptr<IPackageQueue> q = std::make_unique<IPackageQueue>(PackageQueueType::FIFO))
+            : PackageSender(), id_(id),
+              pd_(pd),
+              q_(std::move(q)) {}
+
+    void do_work(Time t);
+
+    TimeOffset get_processing_duration() const { return pd_; }
+
+    ElementID get_id() const { return id_; }
+
+private:
+    ElementID id_;
+    TimeOffset pd_;
+    std::unique_ptr<IPackageQueue> q_;
+
 
 };
 
