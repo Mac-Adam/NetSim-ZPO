@@ -27,12 +27,13 @@ void Worker::recieve_package(Package&& package) {
 
 
 void Worker::do_work(Time t) {
-    if (!working) {
+    if (!buffer_) {
         if (!q_->empty()) {
-            push_package(q_->pop());
+            buffer_.emplace(q_->pop());
             startTime_ = t;
         }
     } else if (t >= startTime_ + pd_) {
-        send_package();
+        push_package(std::move(buffer_.value()));
+        buffer_.reset();
     }
 }

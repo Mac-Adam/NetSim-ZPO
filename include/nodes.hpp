@@ -118,15 +118,22 @@ public:
 
     ElementID get_id() const override { return id_; }
 
+    IPackageStockpile::const_iterator begin() const override { return q_->begin(); };
+
+    IPackageStockpile::const_iterator end() const override { return q_->end(); };
+
+    IPackageStockpile::const_iterator cbegin() const override { return q_->cbegin(); };
+
+    IPackageStockpile::const_iterator cend() const override { return q_->cend(); };
+
     void recieve_package(Package&& package) override;
 
 private:
     ElementID id_;
     TimeOffset pd_;
     Time startTime_;
-    bool working = false;
     std::unique_ptr<IPackageQueue> q_;
-
+    std::optional<Package> buffer_ = std::nullopt;
 
 };
 
