@@ -116,12 +116,29 @@ public:
 
     TimeOffset get_processing_duration() const { return pd_; }
 
-    ElementID get_id() const { return id_; }
+    Time get_package_processing_start_time() const { return startTime_; }
+
+    ElementID get_id() const override { return id_; }
+
+    IPackageStockpile::const_iterator begin() const override { return q_->begin(); };
+
+    IPackageStockpile::const_iterator end() const override { return q_->end(); };
+
+    IPackageStockpile::const_iterator cbegin() const override { return q_->cbegin(); };
+
+    IPackageStockpile::const_iterator cend() const override { return q_->cend(); };
+
+    void recieve_package(Package&& package) override;
+
 
 private:
     ElementID id_;
     TimeOffset pd_;
+
+    Time startTime_;
     std::unique_ptr<IPackageQueue> q_;
+    std::optional<Package> buffer_ = std::nullopt;
+
 };
 
 class Storehouse : public IPackageReceiver {
