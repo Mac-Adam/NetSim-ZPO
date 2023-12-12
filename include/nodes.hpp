@@ -13,7 +13,7 @@ enum class ReciverType {
 
 class IPackageReceiver {
 public:
-    virtual void recieve_package(Package&& package) = 0;
+    virtual void receive_package(Package&& package) = 0;
 
     virtual ElementID get_id() const = 0;
 
@@ -38,7 +38,7 @@ class ReceiverPreferences {
     using preferences_t = std::map<IPackageReceiver*, double>;
     using const_iterator = preferences_t::const_iterator;
 
-    ReceiverPreferences(ProbabilityGenerator pg);
+    explicit ReceiverPreferences(ProbabilityGenerator pg = probability_generator) : prob_gen_(std::move(pg)) {};
 
     const_iterator begin() const { return preferences_.begin(); }
 
@@ -59,11 +59,14 @@ class ReceiverPreferences {
 
 private:
     preferences_t preferences_;
+    ProbabilityGenerator prob_gen_;
 };
 
 class PackageSender {
 public:
     ReceiverPreferences receiver_preferences_;
+
+    PackageSender();
 
     PackageSender(PackageSender&& package_sender_) = default;
 
@@ -82,8 +85,7 @@ protected:
 class Storehouse : public IPackageReceiver {
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
 
-    void package_receiver(Package&& package) override;
-
+    void receive_package(Package&& package) override;
 };
 
 class Ramp : public PackageSender {
@@ -105,7 +107,7 @@ class Worker : public PackageSender, public IPackageReceiver {
 public:
 
     Worker(ElementID id, TimeOffset pd,
-           std::unique_ptr<IPackageQueue> q = std::make_unique<IPackageQueue>(PackageQueueType::FIFO))
+           std::unique_ptr<IPackageQueue> q = std::make_unique<IPackageQueue>(PackageQueueType::FIFO)) 
             : PackageSender(), id_(id),
               pd_(pd),
               q_(std::move(q)) {}
