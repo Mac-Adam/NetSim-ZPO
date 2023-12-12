@@ -21,18 +21,15 @@ void Ramp::deliver_goods(Time t) {
     }
 }
 
-void Worker::recieve_package(Package&& package) {
-    q_->push(std::move(package));
-}
-
 
 void Worker::do_work(Time t) {
-    if (!working) {
-        if (!q_->empty()) {
-            push_package(q_->pop());
-            startTime_ = t;
-        }
-    } else if (t >= startTime_ + pd_) {
+    //Nie wiem jeszce jak to zrobić
+    if (t % pd_ == 0) {
         send_package();
+        recieve_package();
     }
+}
+
+void Storehouse::receive_package(Package&& p){
+    d_.push(this);
 }
