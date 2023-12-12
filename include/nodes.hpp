@@ -82,7 +82,7 @@ protected:
 class Storehouse : public IPackageReceiver {
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
 
-    void package_receiver(Package&& package) override;
+    void recieve_package(Package&& package) override;
 
 };
 
@@ -114,11 +114,17 @@ public:
 
     TimeOffset get_processing_duration() const { return pd_; }
 
-    ElementID get_id() const { return id_; }
+    Time get_package_processing_start_time() const { return startTime_; }
+
+    ElementID get_id() const override { return id_; }
+
+    void recieve_package(Package&& package) override;
 
 private:
     ElementID id_;
     TimeOffset pd_;
+    Time startTime_;
+    bool working = false;
     std::unique_ptr<IPackageQueue> q_;
 
 
