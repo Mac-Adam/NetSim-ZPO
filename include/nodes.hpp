@@ -122,9 +122,16 @@ private:
     ElementID id_;
     TimeOffset pd_;
     std::unique_ptr<IPackageQueue> q_;
-
-
 };
 
+class Storehouse : public IPackageReceiver {
+public:
+    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d) : id_(id), d_(d) {};
+    void receive_package(Package&& p);
+    ElementID get_id() { return id_; }
+private:
+    ElementID id_;
+    std::unique_ptr<IPackageQueue> d_;
+};
 
 #endif

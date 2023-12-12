@@ -1,3 +1,4 @@
+
 #include "nodes.hpp"
 
 void ReceiverPreferences::add_receiver(IPackageReceiver *r){
@@ -43,3 +44,24 @@ void PackageSender::send_package(){
         buffer_.reset();
     }
 }   
+
+
+void Ramp::deliver_goods(Time t) {
+    if (t % di_ == 0) {
+        push_package(Package());
+    }
+}
+
+
+void Worker::do_work(Time t) {
+    //Nie wiem jeszce jak to zrobić
+    if (t % pd_ == 0) {
+        send_package();
+        recieve_package();
+    }
+}
+
+void Storehouse::receive_package(Package&& p){
+    d_.push(this);
+}
+
