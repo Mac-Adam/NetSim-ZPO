@@ -42,7 +42,7 @@ public:
     virtual ~IPackageQueue() override = default;
 };
 
-class PackageQueue : IPackageQueue {
+class PackageQueue : public IPackageQueue {
 public:
     PackageQueue(PackageQueueType t) : qType_(t) {};
 
