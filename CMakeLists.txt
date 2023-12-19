@@ -19,7 +19,8 @@ set(SOURCE_FILES
         src/package.cpp
         src/storage_types.cpp
         src/nodes.cpp
-        src/helpers.cpp)
+        src/helpers.cpp
+        src/factory.cpp)
 
 add_executable(NetSimTest ${SOURCE_FILES} ${SOURCES_FILES_TESTS} test/main_gtest.cpp)
 

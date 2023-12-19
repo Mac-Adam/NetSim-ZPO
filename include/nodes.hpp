@@ -83,6 +83,8 @@ protected:
 };
 
 
+
+
 class Ramp : public PackageSender {
 public:
     Ramp(ElementID id, TimeOffset di) : PackageSender(), id_(id), di_(di), last_delivery(-di_) {};
@@ -103,8 +105,6 @@ private:
 class Worker : public PackageSender, public IPackageReceiver {
 public:
 
-//    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q)
-//            : PackageSender(), id_(id), pd_(pd), q_(std::move(q)) {}
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q)
             : PackageSender(), id_(id), pd_(pd), q_(std::move(q)) {}
 
@@ -140,6 +140,7 @@ private:
 
 class Storehouse : public IPackageReceiver {
 public:
+
     Storehouse(ElementID id,
                std::unique_ptr<IPackageStockpile> d = std::make_unique<PackageQueue>(PackageQueueType::LIFO)) : id_(
             id), d_(std::move(d)) {};
