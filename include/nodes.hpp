@@ -107,7 +107,7 @@ class Worker : public PackageSender, public IPackageReceiver {
 public:
 
     Worker(ElementID id, TimeOffset pd,
-           std::unique_ptr<IPackageQueue> q = std::make_unique<IPackageQueue>(PackageQueueType::FIFO)) 
+           std::unique_ptr<IPackageQueue> q = std::make_unique<IPackageQueue>(PackageQueueType::FIFO))
             : PackageSender(), id_(id),
               pd_(pd),
               q_(std::move(q)) {}
