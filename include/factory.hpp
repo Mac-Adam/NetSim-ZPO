@@ -9,10 +9,12 @@
 
 template<class NodeType>
 class NodeCollection {
+
+public:
     using iterator = typename std::vector<NodeType>::iterator;
     using const_iterator = typename std::vector<NodeType>::const_iterator;
-public:
-    void add(NodeType&& node) { nodes_.emplace_back(node); };
+
+    void add(NodeType&& node) { nodes_.push_back(std::move(node)); };
 
     void remove_by_id(ElementID id) {
         nodes_.remove(std::find(begin(), end(), [id](NodeType x) { return x.get_id() == id; }));
@@ -40,35 +42,35 @@ private:
 
 class Factory : public Worker, public Storehouse, public Ramp {
 public:
-    void add_ramp(Ramp&& r);
+    void add_ramp(Ramp&& r) { ramps.add(std::move(r)); };
 
     void remove_ramp(ElementID id);
 
-    NodeCollection<Ramp>::iterator find_ramp_by_id(ElementID id);
+    NodeCollection<Ramp>::iterator find_ramp_by_id(ElementID id) { return ramps.find_by_id(id); };
 
-    NodeCollection<Ramp>::const_iterator ramp_cbegin();
+    NodeCollection<Ramp>::const_iterator ramp_cbegin() { return ramps.cbegin(); }
 
-    NodeCollection<Ramp>::const_iterator ramp_cend();
+    NodeCollection<Ramp>::const_iterator ramp_cend() { return ramps.cend(); }
 
-    void add_worker(Worker&& w);
+    void add_worker(Worker&& w) { workers.add(std::move(w)); };
 
     void remove_worker(ElementID id);
 
-    NodeCollection<Ramp>::iterator find_worker_by_id(ElementID id);
+    NodeCollection<Worker>::iterator find_worker_by_id(ElementID id) { return workers.find_by_id(id); };
 
-    NodeCollection<Ramp>::const_iterator worker_cbegin();
+    NodeCollection<Worker>::const_iterator worker_cbegin() { return workers.cbegin(); }
 
-    NodeCollection<Ramp>::const_iterator worker_cend();
+    NodeCollection<Worker>::const_iterator worker_cend() { return workers.cend(); }
 
-    void add_storehouse(Storehouse&& s);
+    void add_storehouse(Storehouse&& s) { storehouses.add(std::move(s)); };
 
     void remove_storehouse(ElementID id);
 
-    NodeCollection<Ramp>::iterator find_storehouse_by_id(ElementID id);
+    NodeCollection<Storehouse>::iterator find_storehouse_by_id(ElementID id) { return storehouses.find_by_id(id); };
 
-    NodeCollection<Ramp>::const_iterator storehouse_cbegin();
+    NodeCollection<Storehouse>::const_iterator storehouse_cbegin() { return storehouses.cbegin(); }
 
-    NodeCollection<Ramp>::const_iterator storehouse_cend();
+    NodeCollection<Storehouse>::const_iterator storehouse_cend() { return storehouses.cend(); }
 
     bool is_consistent();
 

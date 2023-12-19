@@ -35,6 +35,7 @@ public:
 };
 
 class ReceiverPreferences {
+public:
     using preferences_t = std::map<IPackageReceiver*, double>;
     using const_iterator = preferences_t::const_iterator;
 
@@ -83,12 +84,14 @@ protected:
 };
 
 class Storehouse : public IPackageReceiver {
+public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
 
     void receive_package(Package&& package) override;
 };
 
 class Ramp : public PackageSender {
+public:
     Ramp(ElementID id, TimeOffset di) : PackageSender(), id_(id), di_(di) {};
 
     void deliver_goods(Time t);
@@ -127,8 +130,11 @@ private:
 class Storehouse : public IPackageReceiver {
 public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d) : id_(id), d_(d) {};
+
     void receive_package(Package&& p);
+
     ElementID get_id() { return id_; }
+
 private:
     ElementID id_;
     std::unique_ptr<IPackageQueue> d_;
