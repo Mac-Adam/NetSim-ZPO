@@ -2,22 +2,23 @@
 #include "nodes.hpp"
 
 void ReceiverPreferences::add_receiver(IPackageReceiver* r) {
-    double receivers_ = preferences_.size();
+    std::size_t receivers_ = preferences_.size();
 
     if (receivers_ == 0)
         preferences_[r] = 1.0;
     if (receivers_ > 0) {
-        for (auto& r: preferences_)
-            r.second = 1 / (receivers_ + 1);
+        for (auto& i: preferences_)
+            i.second = 1.0 / ((double) receivers_ + 1.0);
+        preferences_[r] = 1.0 / ((double) receivers_ + 1.0);
     }
 };
 
 void ReceiverPreferences::remove_receiver(IPackageReceiver* r) {
-    double receivers_ = preferences_.size();
+    std::size_t receivers_ = preferences_.size();
     if (receivers_ > 1) {
         for (auto& re: preferences_) {
             if (re.first != r) {
-                re.second = 1 / (receivers_ - 1);
+                re.second = 1.0 / ((double) receivers_ - 1.0);
             }
         }
     }
@@ -33,6 +34,7 @@ IPackageReceiver* ReceiverPreferences::choose_receiver() {
             return receiver.first;
         }
     }
+    return nullptr;
 }
 
 void PackageSender::send_package() {
@@ -47,21 +49,32 @@ void PackageSender::send_package() {
 
 
 void Ramp::deliver_goods(Time t) {
-    if (t % di_ == 0) {
+    if (t >= last_delivery + di_) {
         push_package(Package());
+        last_delivery = t;
     }
+}
+
+void Worker::receive_package(Package&& package) {
+    q_->push(std::move(package));
 }
 
 
 void Worker::do_work(Time t) {
-    //Nie wiem jeszce jak to zrobić
-    if (t % pd_ == 0) {
-        send_package();
-        recieve_package();
+
+    if (!buffer_) {
+        if (!q_->empty()) {
+            buffer_.emplace(q_->pop());
+            startTime_ = t;
+        }
+    } else if (t + 1 >= startTime_ + pd_) {
+        push_package(std::move(buffer_.value()));
+        buffer_.reset();
     }
 }
 
 void Storehouse::receive_package(Package&& p) {
-    d_.push(this);
+    d_->push(std::move(p));
 }
+
 
