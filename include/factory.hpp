@@ -20,10 +20,12 @@ public:
         nodes_.remove(std::find(begin(), end(), [id](NodeType x) { return x.get_id() == id; }));
     };
 
-    iterator find_by_id(ElementID id) { std::find(begin(), end(), [id](NodeType x) { return x.get_id() == id; }); };
+    iterator find_by_id(ElementID id) {
+        return std::find_if(begin(), end(), [id](NodeType& x) { return x.get_id() == id; });
+    };
 
     const_iterator find_by_id(ElementID id) const {
-        std::find(cbegin(), cend(), [id](NodeType x) { return x.get_id() == id; });
+        return std::find_if(cbegin(), cend(), [id](NodeType& x) { return x.get_id() == id; });
     };
 
     iterator begin() { return nodes_.begin(); }
