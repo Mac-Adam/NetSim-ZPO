@@ -18,9 +18,9 @@ public:
 
     virtual ElementID get_id() const = 0;
 
-#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
+//#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
     virtual ReceiverType get_receiver_type() const = 0;
-#endif
+//#endif
 
     virtual IPackageStockpile::const_iterator begin() const = 0;
 
@@ -124,7 +124,7 @@ public:
 
     IPackageStockpile::const_iterator cend() const override { return q_->cend(); };
 
-    ReceiverType get_receiver_type() { return ReceiverType::WORKER; }
+    ReceiverType get_receiver_type() const override { return ReceiverType::WORKER; }
 
     void receive_package(Package&& package) override;
 
@@ -159,7 +159,7 @@ public:
 
     ElementID get_id() const override { return id_; }
 
-    ReceiverType get_receiver_type() { return ReceiverType::STOREHOUSE; }
+    ReceiverType get_receiver_type() const override { return ReceiverType::STOREHOUSE; }
 
 private:
     ElementID id_;
