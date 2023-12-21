@@ -8,7 +8,7 @@
 #include <optional>
 #include <memory>
 
-enum class ReciverType {
+enum class ReceiverType {
     WORKER, STOREHOUSE
 };
 
@@ -18,9 +18,9 @@ public:
 
     virtual ElementID get_id() const = 0;
 
-#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
-    virtual ReciverType get_receiver_type() const = 0;
-#endif
+//#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
+    virtual ReceiverType get_receiver_type() const = 0;
+//#endif
 
     virtual IPackageStockpile::const_iterator begin() const = 0;
 
@@ -124,6 +124,8 @@ public:
 
     IPackageStockpile::const_iterator cend() const override { return q_->cend(); };
 
+    ReceiverType get_receiver_type() const override { return ReceiverType::WORKER; }
+
     void receive_package(Package&& package) override;
 
 
@@ -156,6 +158,8 @@ public:
     IPackageStockpile::const_iterator end() const override { return d_->end(); }
 
     ElementID get_id() const override { return id_; }
+
+    ReceiverType get_receiver_type() const override { return ReceiverType::STOREHOUSE; }
 
 private:
     ElementID id_;
