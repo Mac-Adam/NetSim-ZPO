@@ -44,6 +44,8 @@ private:
 
 class Factory : public Worker, public Storehouse, public Ramp {
 public:
+    Factory();
+
     void add_ramp(Ramp&& r) { ramps.add(std::move(r)); };
 
     void remove_ramp(ElementID id);
