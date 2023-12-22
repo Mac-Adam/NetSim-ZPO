@@ -16,7 +16,7 @@ public:
 
     void add(NodeType&& node) { nodes_.push_back(std::move(node)); };
 
-    void remove_by_id(ElementID id) { nodes_.erase(find_by_id(id)); };
+    void remove_by_id(ElementID id);
 
     iterator find_by_id(ElementID id) {
         return std::find_if(begin(), end(), [id](NodeType& x) { return x.get_id() == id; });
