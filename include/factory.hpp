@@ -89,5 +89,9 @@ private:
     NodeCollection<Storehouse> storehouses;
 };
 
+Factory load_factory_structure(std::istream& is);
+
+void save_factory_structure(Factory& factory, std::ostream& os);
+
 #endif //NETSIM_ZPO_FACTORY_HPP
 

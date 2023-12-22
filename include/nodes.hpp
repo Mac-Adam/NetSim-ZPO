@@ -111,6 +111,8 @@ public:
 
     //Worker& operator=(Worker&& other);
 
+    IPackageQueue* get_queue() const { return q_.get(); }
+
     void do_work(Time t);
 
     TimeOffset get_processing_duration() const { return pd_; }
