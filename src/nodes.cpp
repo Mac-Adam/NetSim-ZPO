@@ -1,6 +1,35 @@
 
 #include "nodes.hpp"
 
+/*
+Ramp& Ramp::operator=(Ramp&& other) {
+    if (&other == this) {
+        return *this;
+    }
+
+    this->id_ = other.id_;
+    this->di_ = other.di_;
+    this->last_delivery = other.last_delivery;
+
+    return *this;
+};
+
+Worker& Worker::operator=(Worker&& other) {
+    if (&other == this) {
+        return *this;
+    }
+
+    this->id_ = other.id_;
+    this->pd_ = other.pd_;
+    if (other.buffer_.has_value()) {
+        this->buffer_.emplace();
+    }
+
+
+    return *this;
+};
+*/
+
 void ReceiverPreferences::add_receiver(IPackageReceiver* r) {
     std::size_t receivers_ = preferences_.size();
 
