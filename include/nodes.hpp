@@ -83,11 +83,11 @@ protected:
 };
 
 
-
-
 class Ramp : public PackageSender {
 public:
     Ramp(ElementID id, TimeOffset di) : PackageSender(), id_(id), di_(di), last_delivery(-di_) {};
+
+    //Ramp& operator=(Ramp&& other);
 
     void deliver_goods(Time t);
 
@@ -107,6 +107,9 @@ public:
 
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q)
             : PackageSender(), id_(id), pd_(pd), q_(std::move(q)) {}
+
+
+    //Worker& operator=(Worker&& other);
 
     void do_work(Time t);
 

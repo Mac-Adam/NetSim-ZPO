@@ -13,6 +13,7 @@ set(SOURCES_FILES_TESTS
         test/test_package.cpp
         test/test_storage_types.cpp
         test/test_nodes.cpp
+        test/test_Factory.cpp
         )
 
 set(SOURCE_FILES
@@ -39,3 +40,4 @@ target_link_libraries(NetSimTest gmock)
 add_executable(NetSim ${SOURCE_FILES} main.cpp)
 
 target_compile_definitions(NetSimTest PUBLIC EXERCISE_ID=EXERCISE_ID_NODES)
+target_compile_definitions(NetSimTest PUBLIC WITH_RECEIVER_TYPE=1)

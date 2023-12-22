@@ -11,14 +11,12 @@ template<class NodeType>
 class NodeCollection {
 
 public:
-    using iterator = typename std::vector<NodeType>::iterator;
-    using const_iterator = typename std::vector<NodeType>::const_iterator;
+    using iterator = typename std::list<NodeType>::iterator;
+    using const_iterator = typename std::list<NodeType>::const_iterator;
 
     void add(NodeType&& node) { nodes_.push_back(std::move(node)); };
 
-    void remove_by_id(ElementID id) {
-        nodes_.remove(std::find(begin(), end(), [id](NodeType x) { return x.get_id() == id; }));
-    };
+    void remove_by_id(ElementID id) { nodes_.erase(find_by_id(id)); };
 
     iterator find_by_id(ElementID id) {
         return std::find_if(begin(), end(), [id](NodeType& x) { return x.get_id() == id; });
@@ -37,14 +35,15 @@ public:
     const_iterator cend() const { return nodes_.cend(); }
 
 private:
-    std::vector<NodeType> nodes_;
+    std::list<NodeType> nodes_;
 
 
 };
 
-class Factory : public Worker, public Storehouse, public Ramp {
+class Factory {
 public:
-    Factory();
+
+    Factory() = default;
 
     void add_ramp(Ramp&& r) { ramps.add(std::move(r)); };
 
