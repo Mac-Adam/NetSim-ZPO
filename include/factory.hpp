@@ -40,8 +40,10 @@ private:
 
 };
 
-class Factory : public Worker, public Storehouse, public Ramp {
+class Factory {
 public:
+
+    Factory() = default;
 
     void add_ramp(Ramp&& r) { ramps.add(std::move(r)); };
 
