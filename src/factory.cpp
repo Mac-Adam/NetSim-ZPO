@@ -29,6 +29,13 @@ void Factory::do_package_passing() {
     }
 }
 
+template<class NodeType>
+void NodeCollection<NodeType>::remove_by_id(ElementID id) {
+    if (find_by_id(id) != end()) {
+        nodes_.erase(find_by_id(id));
+    }
+};
+
 enum class NodeColor {
     UNVISITED, VISITED, VERIFIED
 };
@@ -58,12 +65,12 @@ bool has_reachable_storehouse(const PackageSender* sender, std::map<const Packag
             IPackageReceiver* receiver_ptr = pair.first;
             auto worker_ptr = dynamic_cast<Worker*>(receiver_ptr);
             sendrecv_ptr = dynamic_cast<PackageSender*>(worker_ptr);
+            if (sender == sendrecv_ptr) { continue; }
+            senderHasOtherReceiver = true;
         }
 
-        if (sender == sendrecv_ptr) { continue; }
-        senderHasOtherReceiver = true;
 
-        if (node_colors[sendrecv_ptr] == NodeColor::VISITED) {
+        if (node_colors.find(sendrecv_ptr) != node_colors.end() and node_colors[sendrecv_ptr] == NodeColor::UNVISITED) {
             has_reachable_storehouse(sendrecv_ptr, node_colors);
         }
     }
@@ -97,47 +104,50 @@ bool Factory::is_consistent() {
 };
 
 void Factory::remove_storehouse(ElementID id) {
-    storehouses.remove_by_id(id);
 
     for (auto& w: workers) {
-        auto worker_pref = w.receiver_preferences_;
+        auto& worker_pref = w.receiver_preferences_;
         for (auto& worker_id: worker_pref) {
             if (worker_id.first->get_id() == id) {
                 worker_pref.remove_receiver(worker_id.first);
             }
         }
     }
+    storehouses.remove_by_id(id);
+
 }
 
 void Factory::remove_ramp(ElementID id) {
-    ramps.remove_by_id(id);
+
     for (auto& r: ramps) {
-        auto ramp_pref = r.receiver_preferences_;
+        auto& ramp_pref = r.receiver_preferences_;
         for (auto& ramp_id: ramp_pref) {
             if (ramp_id.first->get_id() == id) {
                 ramp_pref.remove_receiver(ramp_id.first);
             }
         }
     }
+    ramps.remove_by_id(id);
 }
 
 void Factory::remove_worker(ElementID id) {
-    workers.remove_by_id(id);
 
     for (auto& r: ramps) {
-        auto ramp_pref = r.receiver_preferences_;
+        auto& ramp_pref = r.receiver_preferences_;
         for (auto& ramp_id: ramp_pref) {
             if (ramp_id.first->get_id() == id) {
                 ramp_pref.remove_receiver(ramp_id.first);
+                break;
             }
         }
     }
     for (auto& w: workers) {
-        auto worker_pref = w.receiver_preferences_;
+        auto& worker_pref = w.receiver_preferences_;
         for (auto& worker_id: worker_pref) {
             if (worker_id.first->get_id() == id) {
                 worker_pref.remove_receiver(worker_id.first);
             }
         }
     }
+    workers.remove_by_id(id);
 }
