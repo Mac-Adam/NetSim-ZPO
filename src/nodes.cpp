@@ -97,10 +97,13 @@ void Worker::do_work(Time t) {
             startTime_ = t;
         }
     }
-    if (t + 1 >= startTime_ + pd_) {
-        push_package(std::move(buffer_.value()));
-        buffer_.reset();
+    if (buffer_) {
+        if (t + 1 >= startTime_ + pd_) {
+            push_package(std::move(buffer_.value()));
+            buffer_.reset();
+        }
     }
+
 }
 
 void Storehouse::receive_package(Package&& p) {

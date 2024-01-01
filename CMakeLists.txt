@@ -16,7 +16,7 @@ set(SOURCES_FILES_TESTS
         test/test_Factory.cpp
         test/test_factory_io.cpp
         test/test_reports.cpp
-        
+        test/test_simulate.cpp
         )
 
 set(SOURCE_FILES
@@ -45,4 +45,4 @@ target_link_libraries(NetSimTest gmock)
 
 add_executable(NetSim ${SOURCE_FILES} main.cpp)
 
-target_compile_definitions(NetSimTest PUBLIC EXERCISE_ID=REPORTING)
+target_compile_definitions(NetSimTest PUBLIC EXERCISE_ID=SIMULATION)
