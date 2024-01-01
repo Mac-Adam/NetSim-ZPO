@@ -96,7 +96,8 @@ void Worker::do_work(Time t) {
             buffer_.emplace(q_->pop());
             startTime_ = t;
         }
-    } else if (t + 1 >= startTime_ + pd_) {
+    }
+    if (t + 1 >= startTime_ + pd_) {
         push_package(std::move(buffer_.value()));
         buffer_.reset();
     }

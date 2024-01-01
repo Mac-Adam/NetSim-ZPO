@@ -131,14 +131,18 @@ public:
 
     ReceiverType get_receiver_type() const override { return ReceiverType::WORKER; }
 
+    const std::optional<Package>& get_processing_buffer() const { return buffer_; }
+
     void receive_package(Package&& package) override;
+
+    Time get_processing_time(Time curr_time) const { return curr_time - startTime_ + 1; }
 
 
 private:
     ElementID id_;
     TimeOffset pd_;
-
     Time startTime_;
+
     std::unique_ptr<IPackageQueue> q_;
     std::optional<Package> buffer_ = std::nullopt;
 

@@ -51,9 +51,9 @@ public:
 
     NodeCollection<Ramp>::iterator find_ramp_by_id(ElementID id) { return ramps.find_by_id(id); };
 
-    NodeCollection<Ramp>::const_iterator ramp_cbegin() { return ramps.cbegin(); }
+    NodeCollection<Ramp>::const_iterator ramp_cbegin() const { return ramps.cbegin(); }
 
-    NodeCollection<Ramp>::const_iterator ramp_cend() { return ramps.cend(); }
+    NodeCollection<Ramp>::const_iterator ramp_cend() const { return ramps.cend(); }
 
     void add_worker(Worker&& w) { workers.add(std::move(w)); };
 
@@ -61,9 +61,9 @@ public:
 
     NodeCollection<Worker>::iterator find_worker_by_id(ElementID id) { return workers.find_by_id(id); };
 
-    NodeCollection<Worker>::const_iterator worker_cbegin() { return workers.cbegin(); }
+    NodeCollection<Worker>::const_iterator worker_cbegin() const { return workers.cbegin(); }
 
-    NodeCollection<Worker>::const_iterator worker_cend() { return workers.cend(); }
+    NodeCollection<Worker>::const_iterator worker_cend() const { return workers.cend(); }
 
     void add_storehouse(Storehouse&& s) { storehouses.add(std::move(s)); };
 
@@ -71,9 +71,9 @@ public:
 
     NodeCollection<Storehouse>::iterator find_storehouse_by_id(ElementID id) { return storehouses.find_by_id(id); };
 
-    NodeCollection<Storehouse>::const_iterator storehouse_cbegin() { return storehouses.cbegin(); }
+    NodeCollection<Storehouse>::const_iterator storehouse_cbegin() const { return storehouses.cbegin(); }
 
-    NodeCollection<Storehouse>::const_iterator storehouse_cend() { return storehouses.cend(); }
+    NodeCollection<Storehouse>::const_iterator storehouse_cend() const { return storehouses.cend(); }
 
     bool is_consistent();
 
