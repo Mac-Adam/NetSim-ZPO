@@ -31,17 +31,17 @@ void generate_structure_report(const Factory& factory, std::ostream& os) {
         }
         std::sort(workers_id_vec.begin(), workers_id_vec.end());
         std::sort(storehouse_id_vec.begin(), storehouse_id_vec.end());
-
-        if (workers_id_vec.size() > 0) {
-            for (std::size_t i = 0; i < worker_amount; i++) {
-                os << "    " << "worker #" << workers_id_vec[i] << std::endl;
-            }
-        }
         if (storehouse_id_vec.size() > 0) {
             for (std::size_t i = 0; i < storehouses_amount; i++) {
                 os << "    " << "storehouse #" << storehouse_id_vec[i] << std::endl;
             }
         }
+        if (workers_id_vec.size() > 0) {
+            for (std::size_t i = 0; i < worker_amount; i++) {
+                os << "    " << "worker #" << workers_id_vec[i] << std::endl;
+            }
+        }
+
         os << std::endl;
     });
     os << std::endl << "== WORKERS ==" << std::endl << std::endl;
@@ -70,17 +70,17 @@ void generate_structure_report(const Factory& factory, std::ostream& os) {
         }
         std::sort(workers_id_vec.begin(), workers_id_vec.end());
         std::sort(storehouse_id_vec.begin(), storehouse_id_vec.end());
-
-        if (workers_id_vec.size() > 0) {
-            for (std::size_t i = 0; i < worker_amount; i++) {
-                os << "    " << "worker #" << workers_id_vec[i] << std::endl;
-            }
-        }
         if (storehouse_id_vec.size() > 0) {
             for (std::size_t i = 0; i < storehouses_amount; i++) {
                 os << "    " << "storehouse #" << storehouse_id_vec[i] << std::endl;
             }
         }
+        if (workers_id_vec.size() > 0) {
+            for (std::size_t i = 0; i < worker_amount; i++) {
+                os << "    " << "worker #" << workers_id_vec[i] << std::endl;
+            }
+        }
+
         os << std::endl;
     });
     os << std::endl << "== STOREHOUSES ==" << std::endl << std::endl;
